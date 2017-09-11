@@ -1,22 +1,16 @@
-from nltk.tokenize import sent_tokenize, word_tokenize
-import csv
+from newspaper import Article
+from splitText import SplitText
 
-def getText(path):
-    text = ""
-    with open(path) as file:
-        text = file.read()
-    return text
+TEST_ARTICLE = "http://www.leparisien.fr/politique/rentree-universitaire-macron-surveille-le-chaudron-etudiant-11-09-2017-7250250.php#xtor=AD-1481423553"
 
-def splitText(text):
-    split_text = []
-    sentences = sent_tokenize(text)
-    i = 0
-    for s in sentences:
-        split_text.append(word_tokenize(sentences[i]))
-        i += 1
-    return split_text
+def main():
+    test_article = Article(url=TEST_ARTICLE)
+    test_article.download()
+    test_article.parse()
+    text = SplitText(test_article.text)
+    text.splitIntoParts("french")
+    print(text.paragraphs)
 
-def intersectionScore(s1, s2):
-    inter_len = len(set(s1).intersection(s2))
-    return inter_len/((len(s1)+len(s2))/2)
+if __name__ == '__main__':
+    main()
 
