@@ -33,5 +33,8 @@ class SplitText:
     def getWord(self, paragraph, sentence, index):
         return self.paragraphs[paragraph][sentence][index]
 
+    def __iter__(self):
+        return iter(self.paragraphs)
+
             
 
