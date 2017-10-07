@@ -3,7 +3,7 @@ import numpy as np
 # naive intersection scoring function: length of the intersection between 2 sentences
 def naiveTR_intersection(s1, s2):
 	inter_len = len(set(s1).intersection(s2))
-    return inter_len/((len(s1)+len(s2))/2)
+	return inter_len/((len(s1)+len(s2))/2)
 
 # returns the best sentence of a paragraph, based on an intersection scoring function
 def naiveTR_best(paragraph, scoring=naiveTR_intersection):
