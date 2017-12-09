@@ -16,7 +16,7 @@ class SplitText:
             basicSentences = sent_tokenize(p, language=lang)
 
             # Discard "paragraphs" with one sentence (subtitles, links, etc...)
-            if len(basicSentences) == 1:
+            if len(basicSentences) == 1 and basicSentences[0][-1] != '.':
                 continue
 
             for s in basicSentences:

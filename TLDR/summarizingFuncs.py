@@ -1,5 +1,8 @@
 import numpy as np
 
+def formatSentence(s):
+	return s.replace(' \' ', '\'').replace(' , ',', ').replace(' .','.').replace(' !','!').replace(' ?','?').replace(' : ',': ').replace(' \'', '\'').replace(' ; ','; ').replace(' ’ ', '’')
+
 # naive intersection scoring function: length of the intersection between 2 sentences
 def naiveTR_intersection(s1, s2):
 	inter_len = len(set(s1).intersection(s2))
@@ -19,7 +22,7 @@ def naiveTR_best(paragraph, scoring=naiveTR_intersection):
 	# compute the final score of each sentence
 	for i in range(len(paragraph)):
 		currentScore = sum(graph[i])
-		score.append(currentScore)
+		scores.append(currentScore)
 
 	# find the sentence with the max score
 	return paragraph[scores.index(max(scores))]
@@ -27,8 +30,8 @@ def naiveTR_best(paragraph, scoring=naiveTR_intersection):
 def naiveTextRank(splitText):
 	bestSentences = []
 	for paragraph in splitText:
-		currentBest = naiveTR_best(paragraph)
+		currentBest = formatSentence(" ".join(naiveTR_best(paragraph)))
 		bestSentences.append(currentBest)
-	return "".join(bestSentences)
+	return " ".join(bestSentences)
 	
 
