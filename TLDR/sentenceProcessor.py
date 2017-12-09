@@ -2,6 +2,8 @@ from nltk import pos_tag
 from nltk.stem.wordnet import WordNetLemmatizer
 from nltk.corpus import wordnet
 
+# For french : http://treetaggerwrapper.readthedocs.io/en/latest/
+
 class SentenceProcessor:
 
 	def __init__(self, words):

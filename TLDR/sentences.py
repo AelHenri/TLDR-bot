@@ -18,3 +18,6 @@ class Sentence:
 
 	def getWord(self, index):
 		return self.words[index]
+
+	def __str__(self):
+		return str(self.main_words)
