@@ -1,59 +1,20 @@
-from nltk import word_tokenize, pos_tag
-from nltk.stem.wordnet import WordNetLemmatizer
-from nltk.corpus import wordnet
+from nltk import word_tokenize
+from sentenceProcessor import WordNetProcessor
 
 class Sentence:
 
-	def __init__(self, s, language="english", tokenizer=word_tokenize):
+	def __init__(self, s, tokenizer=word_tokenize, processor=WordNetProcessor):
 		self.words = tokenizer(s)
+		self.processor = processor(self.words)
 		self.length = len(self.words)
-		self.pos = []
-		self.lemmas = []
-		self.main_words = []
-		self.language = language
+
+		self.processor.tag()
+		self.processor.lemmatize()
+		self.processor.filter()
+
+		self.pos = self.processor.getPos()
+		self.lemmas = self.processor.getLemmas()
+		self.main_words = self.processor.getMains()
 
 	def getWord(self, index):
 		return self.words[index]
-
-	def posTag(self):
-		pos_tags = pos_tag(self.words)
-		for i in range(self.length):
-			self.pos.append(pos_tags[i][1])
-
-	def lemmatize(self):
-
-		lemm = WordNetLemmatizer()
-		def getWordnetPos(tag):
-			if tag.startswith('J'):
-				return wordnet.ADJ
-			elif tag.startswith('V'):
-				return wordnet.VERB
-			elif tag.startswith('N'):
-				return wordnet.NOUN
-			elif tag.startswith('R'):
-				return wordnet.ADV
-			else:
-				return ''
-
-		if not self.pos:
-			self.posTag()
-
-		for i in range(self.length):
-			currentTag = getWordnetPos(self.pos[i])
-			if currentTag:
-				self.lemmas.append(lemm.lemmatize(self.words[i], currentTag))
-			else:
-				self.lemmas.append(lemm.lemmatize(self.words[i]))
-
-	def filter(self):
-
-		def checkInPos(pos):
-			allowed = ["F", "J", "NN", "RB", "UH", "V"]
-			for a in allowed:
-				if a in pos:
-					return True
-			return False
-
-		for i in range(self.length):
-			if checkInPos(self.pos[i]):
-				self.main_words.append(self.lemmas[i])
